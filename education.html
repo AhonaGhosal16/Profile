@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Education</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css"> <!-- Include your custom styles -->
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        section {
+            padding: 50px 0;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        /* Background Animation */
+        .bg-animation {
+            background: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+            position: relative;
+            z-index: 1;
+        }
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('https://i.ibb.co/w0CzPvb/bg-pattern.png') repeat center center;
+            z-index: -1;
+            opacity: 0.2;
+        }
+
+        /* Icons */
+        .icon {
+            font-size: 40px;
+            color: #4a90e2;
+            margin-right: 10px;
+        }
+
+        /* Table Styling */
+        .table-container {
+            margin-top: 40px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        /* Responsive Grid Layout */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        /* Footer Styling */
+        footer {
+            background-color: #333;
+            padding: 20px;
+            text-align: center;
+            color: #fff;
+        }
+        footer p {
+            margin: 0;
+        }
+
+        /* Media Query */
+        @media screen and (max-width: 768px) {
+            h2 {
+                font-size: 1.8rem;
+            }
+            .icon {
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Education Section Header -->
+    <header class="bg-animation">
+        <div class="container">
+            <h2>Education</h2>
+        </div>
+    </header>
+
+    <!-- Academic Details Section -->
+    <section id="academic-details" class="bg-animation">
+        <div class="container">
+            <h2 class="section-header"><i class="fas fa-graduation-cap icon"></i>Academic Details</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Degree</th>
+                            <th>Institution</th>
+                            <th>Year of Graduation</th>
+                            <th>CGPA/Percentage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ICSE</td>
+                            <td>Auxilum Convent School</td>
+                            <td>2022</td>
+                            <td>92.2%</td>
+                        </tr>
+                        <tr>
+                            <td>ISC</td>
+                            <td>Auxilium Convent School</td>
+                            <td>2024</td>
+                            <td>90%</td>
+                        </tr>
+                        <tr>
+                            <td>Bachelor of Technology (B.Tech)</td>
+                            <td>University Of Engineering And Management</td>
+                            <td>2028</td>
+                            <td>null</td>
+                        </tr>
+                        <!-- Add more rows as needed -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Courses Completed Section -->
+    <section id="courses-completed">
+        <div class="container">
+            <h2 class="section-header"><i class="fas fa-book icon"></i>Courses Completed (NPTEL, Coursera, LinkedIn Learning)</h2>
+            <div class="grid-container">
+                <div class="card">
+                    <h3 class="card-title">Machine Learning - Coursera</h3>
+                    <p>Completed the popular Machine Learning course by Andrew Ng on Coursera, gaining a deep understanding of supervised and unsupervised learning.</p>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Deep Learning - NPTEL</h3>
+                    <p>Studied advanced deep learning concepts, neural networks, and their applications through this NPTEL course.</p>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Python for Data Science - LinkedIn Learning</h3>
+                    <p>Learned data manipulation, visualization, and fundamental data science techniques using Python in this course.</p>
+                </div>
+                <!-- Add more course cards as needed -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2024 Abjini Ghosal. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>

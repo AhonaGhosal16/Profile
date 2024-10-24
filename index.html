@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Abjini Ghosal - Personal Website</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        header {
+            background: #2c3e50;
+            color: #ffffff;
+            padding-top: 30px;
+            min-height: 70px;
+            border-bottom: #e74c3c 3px solid;
+        }
+        header a {
+            color: #ffffff;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+        header li {
+            float: left;
+            display: inline;
+            padding: 0 20px 0 20px;
+        }
+        header #branding {
+            float: left;
+        }
+        header #branding h1 {
+            margin: 0;
+            font-family: 'Playfair Display', serif;
+        }
+        header nav {
+            float: right;
+            margin-top: 10px;
+        }
+        header .highlight, header .current a {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        header a:hover {
+            color: #ecf0f1;
+            font-weight: bold;
+        }
+        #showcase {
+            min-height: 400px;
+            background: linear-gradient(rgba(44, 62, 80, 0.7), rgba(44, 62, 80, 0.7)), url('/api/placeholder/1200/400') no-repeat center center/cover;
+            text-align: center;
+            color: #ffffff;
+        }
+        #showcase h1 {
+            margin-top: 100px;
+            font-size: 55px;
+            margin-bottom: 10px;
+            font-family: 'Playfair Display', serif;
+        }
+        #showcase p {
+            font-size: 20px;
+        }
+        .card {
+            background: #fff;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .card h2 {
+            font-family: 'Playfair Display', serif;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        .card-content {
+            display: flex;
+            align-items: center;
+        }
+        .card-text {
+            flex: 1;
+        }
+        .card-image {
+            flex: 1;
+            text-align: center;
+        }
+        .card-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #e74c3c;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+        .btn:hover {
+            background: #c0392b;
+        }
+        .icon {
+            margin-right: 10px;
+            color: #e74c3c;
+        }
+        @media(max-width: 768px) {
+            header #branding,
+            header nav,
+            header nav li,
+            .card-content {
+                float: none;
+                text-align: center;
+                width: 100%;
+            }
+            header {
+                padding-bottom: 20px;
+            }
+            .card-content {
+                flex-direction: column;
+            }
+        }
+        #contact {
+            background: #93de84;
+            color: white;
+            padding: 50px 0;
+        }
+        #contact h2 {
+            font-family: 'Playfair Display', serif;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .contact-info {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .contact-info i {
+            font-size: 24px;
+            color: #e74c3c;
+            margin-right: 10px;
+        }
+        .contact-info p {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        .contact-form {
+            max-width: 600px;
+            margin: auto;
+            background: rgb(122, 209, 219);
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .contact-form button {
+            background: #e74c3c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .contact-form button:hover {
+            background: #c0392b;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div id="branding">
+                <h1><span class="highlight">Abjini</span> Ghosal</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li class="current"><a href="#showcase"><i class="fas fa-home icon"></i>Home</a></li>
+                    <li><a href="#about"><i class="fas fa-user icon"></i>About</a></li>
+                    <li><a href="#education"><i class="fas fa-graduation-cap icon"></i>Education</a></li>
+                    <li><a href="#experience"><i class="fas fa-briefcase icon"></i>Experience</a></li>
+                    <li><a href="#publications"><i class="fas fa-book icon"></i>Publications</a></li>
+                    <li><a href="#contact"><i class="fas fa-envelope icon"></i>Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="showcase">
+        <div class="container">
+            <h1 data-aos="fade-up">Welcome to My Personal Website</h1>
+            <p data-aos="fade-up" data-aos-delay="200">Discover my journey, achievements, and expertise</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <div id="about" class="card" data-aos="fade-right">
+            <div class="card-content">
+                <div class="card-text">
+                    <h2><i class="fas fa-user icon"></i>About Me</h2>
+                    <p>I am a passionate student and researcher with a focus on Data Science.</p>
+                    <a href="about.html" class="btn">Learn More</a>
+                </div>
+                <div class="card-image">
+                    <img src="photos/20240804_173428 (2).jpg" alt="About Me">
+                </div>
+            </div>
+        </div>
+
+        <div id="education" class="card" data-aos="fade-left">
+            <div class="card-content">
+                <div class="card-image">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCj8QGOR7A6Z8WuOEeae5ESvFngVW7m6Wp2A&s" alt="Education">
+                </div>
+                <div class="card-text">
+                    <h2><i class="fas fa-graduation-cap icon"></i>Educational Background</h2>
+                    <p>[Brief overview of my educational background]</p>
+                    <a href="education.html" class="btn">View Details</a>
+                </div>
+            </div>
+        </div>
+
+        <div id="experience" class="card" data-aos="fade-right">
+            <div class="card-content">
+                <div class="card-text">
+                    <h2><i class="fas fa-briefcase icon"></i>Experience</h2>
+                    <p>[Brief overview of my work experience]</p>
+                    <a href="experience.html" class="btn">Explore Career</a>
+                </div>
+                <div class="card-image">
+                    <img src="https://d2jdgazzki9vjm.cloudfront.net/definition/images/experience-definition.png" alt="Experience">
+                </div>
+            </div>
+        </div>
+
+        <div id="publications" class="card" data-aos="fade-left">
+            <div class="card-content">
+                <div class="card-image">
+                    <img src="data:image/jpeg;base64,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" alt="Publications">
+                </div>
+                <div class="card-text">
+                    <h2><i class="fas fa-book icon"></i>Publications</h2>
+                    <p>[Brief overview of my publications]</p>
+                    <a href="publication.html" class="btn">Read Publications</a>
+                </div>
+            </div>
+        </div>
+
+        <div id="contact" class="card" data-aos="fade-up">
+            <div class="card-content">
+                <div class="card-text">
+                    <h2><i class="fas fa-envelope icon"></i>Contact</h2>
+                    <p>[My contact information or a brief invitation to connect]</p>
+                    <a href="contact.html" class="btn">Get in Touch</a>
+                </div>
+                <div class="card-image">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3ZEc0kCYvMcwf2YIwNkUXCYN7fR9JUGOJTg&s" alt="Contact">
+                </div>
+            </div>
+        </div>
+        
+        <section id="contact">
+            <div class="container">
+                <h2>Contact Me</h2>
+        
+                <div class="contact-info" data-aos="fade-up">
+                    <p><i class="fas fa-envelope"></i> abjinighosal01@gmail.com</p>
+                    <p><i class="fas fa-phone"></i> +917439774175</p>
+                </div>
+        
+                <div class="contact-form" data-aos="fade-up" data-aos-delay="200">
+                    <form id="contactForm">
+                        <input type="text" id="name" name="name" placeholder="Your Name" required>
+                        <input type="email" id="email" name="email" placeholder="Your Email" required>
+                        <textarea id="message" name="message" placeholder="Your Message" required></textarea>
+                        <button type="submit">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+        
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2.4.1/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init("abjinighosal01"); // Replace this with your EmailJS user ID
+        })();
+
+        // Form submission handling
+        document.getElementById('contactForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Send email using EmailJS
+            emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', this)
+                .then(function(response) {
+                    alert('Message Sent Successfully!');
+                }, function(error) {
+                    alert('FAILED... Please try again.');
+                });
+        });
+    </script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true,
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Experience</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css"> <!-- Include your custom styles -->
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        section {
+            padding: 50px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        /* Background Animation */
+        .bg-animation {
+            background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+            position: relative;
+            z-index: 1;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('https://i.ibb.co/3WvTqLn/bg-pattern2.png') repeat center center;
+            z-index: -1;
+            opacity: 0.1;
+        }
+
+        /* Icons */
+        .icon {
+            font-size: 40px;
+            color: #4a90e2;
+            margin-right: 10px;
+        }
+
+        /* Project Cards Styling */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        /* Events List Styling */
+        .event-list {
+            list-style-type: none;
+            padding-left: 0;
+            margin: 0;
+        }
+
+        .event-list li {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .event-list li i {
+            margin-right: 15px;
+            color: #4a90e2;
+        }
+
+        /* Footer Styling */
+        footer {
+            background-color: #333;
+            padding: 20px;
+            text-align: center;
+            color: #fff;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        /* Media Queries */
+        @media screen and (max-width: 768px) {
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            .icon {
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Experience Section Header -->
+    <header class="bg-animation">
+        <div class="container">
+            <h2>Experience</h2>
+        </div>
+    </header>
+
+    <!-- Projects Section -->
+    <section id="projects" class="bg-animation">
+        <div class="container">
+            <h2 class="section-header"><i class="fas fa-project-diagram icon"></i>Achievements and Co-cirrculum</h2>
+            <div class="grid-container">
+                
+                <div class="card">
+                    <h3 class="card-title">Winner in Singing</h3>
+                    <p>Fist prize awarded for Interschool Singing Competition.</p>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Excellence Award</h3>
+                    <p>Award for excellence received from school for Cisce.</p>
+                </div>
+                <!-- Add more project cards as needed -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section id="events">
+        <div class="container">
+            <h2 class="section-header"><i class="fas fa-calendar-alt icon"></i>Technical Skills</h2>
+            <ul class="event-list">
+            <li><i class="fas fa-check-circle"></i> Python</li>
+            <li><i class="fas fa-check-circle"></i> JAVA</li>
+            <li><i class="fas fa-check-circle"></i> C++</li>
+                <!-- Add more events as needed -->
+            </ul>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section id="events">
+        <div class="container">
+            <h2 class="section-header"><i class="fas fa-calendar-alt icon"></i>Special Skills</h2>
+            <ul class="event-list">
+            <li><i class="fas fa-check-circle"></i> Singing</li>
+            <li><i class="fas fa-check-circle"></i> Painting</li>
+            <li><i class="fas fa-check-circle"></i> Narrator</li>
+                <!-- Add more events as needed -->
+            </ul>
+        </div>
+    </section>
+
+
+    <!-- Events Section -->
+    <section id="events">
+        <div class="container">
+            <h2 class="section-header"><i class="fas fa-calendar-alt icon"></i>Events (Organized/Attended)</h2>
+            <ul class="event-list">
+               <li><i class="fas fa-check-circle"></i> Participated in Independence Day event.</li>
+                <!-- Add more events as needed -->
+            </ul>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2024 Abjini ghosal. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>
