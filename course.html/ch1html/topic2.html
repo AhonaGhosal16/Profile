@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Course: Historical Evolution of Computers</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://www.youtube.com/iframe_api"></script>
+
+    <style>
+      /* General body styling */
+      h1, h2, h3 {
+        animation: float 3s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0px); }
+      }
+
+      /* Glowing effect for important terms */
+      strong, b, u {
+        position: relative;
+      }
+
+      strong::after, b::after, u::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        border-radius: 5px;
+        animation: glow 2s ease-in-out infinite;
+      }
+
+      @keyframes glow {
+        0% { box-shadow: 0 0 5px rgba(0,123,255,0); }
+        50% { box-shadow: 0 0 20px rgba(0,123,255,0.5); }
+        100% { box-shadow: 0 0 5px rgba(0,123,255,0); }
+      }
+
+      /* Animated list items */
+      ul li {
+        transform: translateX(-20px);
+        opacity: 0;
+        animation: slideIn 0.5s forwards;
+      }
+
+      @keyframes slideIn {
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      /* Progress bar animation */
+      #video-progress-bar {
+        background: linear-gradient(45deg, #007bff, #00ff88, #007bff);
+        background-size: 200% 200%;
+        animation: gradientBG 3s ease infinite;
+      }
+
+      @keyframes gradientBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+
+      /* Add a dark mode toggle */
+      .dark-mode {
+        background-color: #333;
+        color: #fff;
+      }
+
+      .dark-mode #course-content {
+        background-color: #444;
+        color: #fff;
+      }
+
+      /* Loading spinner */
+      .loader {
+        border: 5px solid #f3f3f3;
+        border-top: 5px solid #007bff;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+        margin: 20px auto;
+        display: none;
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+      /* New button styles */
+      .button-container {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin: 20px 0;
+      }
+
+      .feature-button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 25px;
+        background: linear-gradient(45deg, #007bff, #00ff88);
+        color: white;
+        cursor: pointer;
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+
+      .feature-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      }
+
+      /* Notes section */
+      #notes-section {
+        margin-top: 20px;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: #f0f0f0;
+        display: none;
+      }
+
+      #notes-input {
+        width: 100%;
+        height: 100px;
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 5px;
+      }
+      body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f9f9f9;
+        color: #333;
+        margin: 0;
+        padding: 0;
+      }
+
+      header, footer {
+        background-color: #007bff;
+        color: white;
+        padding: 15px;
+        text-align: center;
+      }
+
+      h2, h3 {
+        color: #007bff;
+        text-align: center;
+      }
+
+      /* Styling for the course content section */
+      #course-content {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+      }
+
+      #course-content p {
+        line-height: 1.6;
+        font-size: 16px;
+      }
+
+      ul {
+        padding-left: 20px;
+        margin-top: 10px;
+        list-style-type: square;
+      }
+
+      ul li {
+        margin: 5px 0;
+      }
+
+      /* Hover effect on important terms */
+      strong, b, u {
+        transition: color 0.3s;
+      }
+
+      strong:hover, b:hover, u:hover {
+        color: #ff5733;
+        cursor: pointer;
+      }
+
+      hr {
+        border: 1px solid #007bff;
+        margin-bottom: 20px;
+      }
+
+      /* Styling for the video section */
+      #video-player {
+        margin-top: 30px;
+        text-align: center;
+      }
+
+      iframe {
+        border: 3px solid #007bff;
+        border-radius: 10px;
+        transition: transform 0.3s ease-in-out;
+      }
+
+      iframe:hover {
+        transform: scale(1.05);
+      }
+
+      #video-progress-container {
+        width: 100%;
+        height: 10px;
+        background-color: #f0f0f0;
+        border-radius: 5px;
+        margin-top: 10px;
+        position: relative;
+      }
+
+      #video-progress-bar {
+        width: 0;
+        height: 100%;
+        background-color: #007bff;
+        transition: width 0.2s ease;
+      }
+
+      #video-progress-text {
+        margin-top: 10px;
+        font-size: 16px;
+      }
+
+      #progress-percentage {
+        font-weight: bold;
+        margin-left: 10px;
+      }
+
+      #celebration {
+        display: none;
+        text-align: center;
+        margin-top: 20px;
+        font-size: 24px;
+        color: #28a745;
+        animation: fadeIn 2s forwards;
+      }
+
+      #tick-mark {
+        font-size: 50px;
+        display: none;
+        animation: bounceIn 1s forwards;
+      }
+
+      /* Keyframe for fading in the celebration text */
+      @keyframes fadeIn {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      /* Keyframe for bouncing tick mark */
+      @keyframes bounceIn {
+        0% {
+          transform: scale(0);
+        }
+        60% {
+          transform: scale(1.2);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      /* Footer */
+      footer {
+        margin-top: 30px;
+      }
+
+      /* Animation for hovering on links */
+      a {
+        text-decoration: none;
+        color: #007bff;
+        transition: color 0.3s, transform 0.3s;
+      }
+
+      a:hover {
+        color: #0056b3;
+        transform: translateY(-2px);
+      }
+
+      /* Style for the Take Test button */
+      .animated-button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s, transform 0.3s;
+      }
+
+      /* Button hover effect */
+      .animated-button:hover {
+        background-color: #0056b3;
+        transform: scale(1.05);
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h1>Historical Evolution of Computers</h1>
+    </header>
+    <div class="button-container">
+      <button class="feature-button" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+      <button class="feature-button" onclick="toggleNotes()">Show Notes</button>
+      <button class="feature-button" onclick="downloadNotes()">Download Notes</button>
+    </div>
+
+    <div class="loader" id="loader"></div>
+
+    <div id="notes-section">
+      <textarea id="notes-input" placeholder="Take your notes here..."></textarea>
+      <button class="feature-button" onclick="saveNotes()">Save Notes</button>
+    </div>
+
+    <section id="course-content">
+      <h2>Generations of Computers</h2>
+      <hr />
+      
+      <h3>First Generation (1940s-1950s)</h3>
+      <p>
+        <strong>Technology:</strong> Vacuum tubes were used for circuitry.
+      </p>
+      <p>
+        <strong>Characteristics:</strong> Large size, high power consumption, and limited reliability.
+      </p>
+      <p>
+        <strong>Example:</strong> ENIAC (Electronic Numerical Integrator and Computer), which was used for complex calculations in the military.
+      </p>
+
+      <h3>Second Generation (1950s-1960s)</h3>
+      <p>
+        <strong>Technology:</strong> Transistors replaced vacuum tubes.
+      </p>
+      <p>
+        <strong>Characteristics:</strong> Smaller, more reliable, and energy-efficient. Allowed for the development of more complex software.
+      </p>
+      <p>
+        <strong>Example:</strong> IBM 7094, which was widely used in scientific and engineering applications.
+      </p>
+
+      <h3>Third Generation (1960s-1970s)</h3>
+      <p>
+        <strong>Technology:</strong> Integrated Circuits (ICs) combined multiple transistors onto a single chip.
+      </p>
+      <p>
+        <strong>Characteristics:</strong> Further miniaturization and improved performance. This era saw the rise of operating systems that allowed multiple programs to run simultaneously.
+      </p>
+      <p>
+        <strong>Example:</strong> IBM System/360, which introduced the concept of a compatible family of computers.
+      </p>
+
+      <h3>Fourth Generation (1970s-Present)</h3>
+      <p>
+        <strong>Technology:</strong> Microprocessors, which integrate the CPU onto a single chip.
+      </p>
+      <p>
+        <strong>Characteristics:</strong> Personal computers became widespread. This generation saw advancements in software applications and user interfaces.
+      </p>
+      <p>
+        <strong>Example:</strong> Intel 4004, the first commercially available microprocessor.
+      </p>
+
+      <h3>Fifth Generation (Present and Beyond)</h3>
+      <p>
+        <strong>Focus:</strong> Artificial Intelligence (AI), machine learning, and advanced computational models.
+      </p>
+      <p>
+        <strong>Characteristics:</strong> Ongoing research in quantum computing and neural networks aims to solve problems that traditional computers struggle with.
+      </p>
+
+      <br>
+      <button id="take-test" class="animated-button">Take Test</button>
+    </section>
+
+    <footer>
+      <p>&copy; 2024 Computer Organization Course. All rights reserved.</p>
+    </footer>
+
+    <script>
+      var player;
+      var progressBar = document.getElementById("video-progress-bar");
+      var currentTimeSpan = document.getElementById("current-time");
+      var totalTimeSpan = document.getElementById("total-time");
+      var progressPercentageSpan = document.getElementById("progress-percentage");
+      var celebration = document.getElementById("celebration");
+      var tickMark = document.getElementById("tick-mark");
+
+      // This function will be called when the YouTube API is ready
+      function onYouTubeIframeAPIReady() {
+        player = new YT.Player("youtube-player", {
+          events: {
+            onReady: onPlayerReady,
+            onStateChange: onPlayerStateChange,
+          },
+        });
+      }
+      
+      document.getElementById('take-test').addEventListener('click', function() {
+        window.location.href = 'qq.html'; // Redirect to quiz.html
+      });
+
+      function onPlayerReady(event) {
+        var totalTime = player.getDuration();
+        totalTimeSpan.textContent = formatTime(totalTime);
+      }
+
+      function onPlayerStateChange(event) {
+        if (event.data === YT.PlayerState.PLAYING) {
+          setInterval(trackVideoProgress, 1000);
+        }
+      }
+
+      function trackVideoProgress() {
+        var currentTime = player.getCurrentTime();
+        var totalTime = player.getDuration();
+        var progress = (currentTime / totalTime) * 100;
+
+        progressBar.style.width = progress + "%";
+        progressPercentageSpan.textContent = Math.round(progress) + "%";
+
+        currentTimeSpan.textContent = formatTime(currentTime);
+      }
+
+      function formatTime(timeInSeconds) {
+        var minutes = Math.floor(timeInSeconds / 60);
+        var seconds = Math.floor(timeInSeconds % 60);
+        return minutes + ":" + (seconds < 10 ? "0" + seconds : seconds);
+      }
+
+      // Dark Mode Toggle
+      function toggleDarkMode() {
+        document.body.classList.toggle("dark-mode");
+        var currentTheme = document.body.classList.contains("dark-mode")
+          ? "Dark Mode"
+          : "Light Mode";
+        alert("Switched to " + currentTheme);
+      }
+
+      // Show/Hide Notes Section
+      function toggleNotes() {
+        var notesSection = document.getElementById("notes-section");
+        notesSection.style.display = notesSection.style.display === "block" ? "none" : "block";
+      }
+
+      // Save Notes
+      function saveNotes() {
+        var notes = document.getElementById("notes-input").value;
+        alert("Notes Saved!");
+        localStorage.setItem("userNotes", notes);
+      }
+
+      // Download Notes as Text File
+      function downloadNotes() {
+        var notes = localStorage.getItem("userNotes") || "";
+        var blob = new Blob([notes], { type: "text/plain" });
+        var link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "notes.txt";
+        link.click();
+      }
+    </script>
+  </body>
+</html>

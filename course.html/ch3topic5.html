@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Basic Processor Design and Circuit Design</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://www.youtube.com/iframe_api"></script>
+
+    <style>
+      /* General body styling */
+      h1, h2, h3 {
+        animation: float 3s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0px); }
+      }
+
+      /* Glowing effect for important terms */
+      strong, b, u {
+        position: relative;
+      }
+
+      strong::after, b::after, u::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        border-radius: 5px;
+        animation: glow 2s ease-in-out infinite;
+      }
+
+      @keyframes glow {
+        0% { box-shadow: 0 0 5px rgba(0,123,255,0); }
+        50% { box-shadow: 0 0 20px rgba(0,123,255,0.5); }
+        100% { box-shadow: 0 0 5px rgba(0,123,255,0); }
+      }
+
+      /* Animated list items */
+      ul li {
+        transform: translateX(-20px);
+        opacity: 0;
+        animation: slideIn 0.5s forwards;
+      }
+
+      @keyframes slideIn {
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      /* Progress bar animation */
+      #video-progress-bar {
+        background: linear-gradient(45deg, #007bff, #00ff88, #007bff);
+        background-size: 200% 200%;
+        animation: gradientBG 3s ease infinite;
+      }
+
+      @keyframes gradientBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+
+      /* Add a dark mode toggle */
+      .dark-mode {
+        background-color: #333;
+        color: #fff;
+      }
+
+      .dark-mode #course-content {
+        background-color: #444;
+        color: #fff;
+      }
+
+      /* Loading spinner */
+      .loader {
+        border: 5px solid #f3f3f3;
+        border-top: 5px solid #007bff;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+        margin: 20px auto;
+        display: none;
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+      /* New button styles */
+      .button-container {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin: 20px 0;
+      }
+
+      .feature-button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 25px;
+        background: linear-gradient(45deg, #007bff, #00ff88);
+        color: white;
+        cursor: pointer;
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+
+      .feature-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      }
+
+      /* Notes section */
+      #notes-section {
+        margin-top: 20px;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: #f0f0f0;
+        display: none;
+      }
+
+      #notes-input {
+        width: 100%;
+        height: 100px;
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 5px;
+      }
+      body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f9f9f9;
+        color: #333;
+        margin: 0;
+        padding: 0;
+      }
+
+      header, footer {
+        background-color: #007bff;
+        color: white;
+        padding: 15px;
+        text-align: center;
+      }
+
+      h2, h3 {
+        color: #007bff;
+        text-align: center;
+      }
+
+      /* Styling for the course content section */
+      #course-content {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+      }
+
+      #course-content p {
+        line-height: 1.6;
+        font-size: 16px;
+      }
+
+      ul {
+        padding-left: 20px;
+        margin-top: 10px;
+        list-style-type: square;
+      }
+
+      ul li {
+        margin: 5px 0;
+      }
+
+      /* Hover effect on important terms */
+      strong, b, u {
+        transition: color 0.3s;
+      }
+
+      strong:hover, b:hover, u:hover {
+        color: #ff5733;
+        cursor: pointer;
+      }
+
+      hr {
+        border: 1px solid #007bff;
+        margin-bottom: 20px;
+      }
+
+      /* Styling for the video section */
+      #video-player {
+        margin-top: 30px;
+        text-align: center;
+      }
+
+      iframe {
+        border: 3px solid #007bff;
+        border-radius: 10px;
+        transition: transform 0.3s ease-in-out;
+      }
+
+      iframe:hover {
+        transform: scale(1.05);
+      }
+
+      #video-progress-container {
+        width: 100%;
+        height: 10px;
+        background-color: #f0f0f0;
+        border-radius: 5px;
+        margin-top: 10px;
+        position: relative;
+      }
+
+      #video-progress-bar {
+        width: 0;
+        height: 100%;
+        background-color: #007bff;
+        transition: width 0.2s ease;
+      }
+
+      #video-progress-text {
+        margin-top: 10px;
+        font-size: 16px;
+      }
+
+      #progress-percentage {
+        font-weight: bold;
+        margin-left: 10px;
+      }
+
+      #celebration {
+        display: none;
+        text-align: center;
+        margin-top: 20px;
+        font-size: 24px;
+        color: #28a745;
+        animation: fadeIn 2s forwards;
+      }
+
+      #tick-mark {
+        font-size: 50px;
+        display: none;
+        animation: bounceIn 1s forwards;
+      }
+
+      /* Keyframe for fading in the celebration text */
+      @keyframes fadeIn {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      /* Keyframe for bouncing tick mark */
+      @keyframes bounceIn {
+        0% {
+          transform: scale(0);
+        }
+        60% {
+          transform: scale(1.2);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+      /* Progress bar container */
+      #video-progress-container {
+        width: 100%;
+        height: 10px;
+        background-color: #e0e0e0;
+        border-radius: 5px;
+        margin-top: 15px;
+        overflow: hidden;
+      }
+
+      /* Progress bar animation */
+      #video-progress-bar {
+        width: 0;
+        height: 100%;
+        background: linear-gradient(90deg, #007bff, #00c6ff);
+        transition: width 0.2s ease;
+        border-radius: 5px;
+      }
+
+      /* Styling for time labels */
+      #video-progress-text {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #555;
+        text-align: center;
+      }
+
+      /* Footer */
+      footer {
+        margin-top: 30px;
+      }
+
+      /* Animation for hovering on links */
+      a {
+        text-decoration: none;
+        color: #007bff;
+        transition: color 0.3s, transform 0.3s;
+      }
+
+      a:hover {
+        color: #0056b3;
+        transform: translateY(-2px);
+      }
+
+      /* Style for the Take Test button */
+      .animated-button {
+        background-color: #007bff; /* Bootstrap primary color */
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s, transform 0.3s; /* Transition effects */
+      }
+
+      /* Button hover effect */
+      .animated-button:hover {
+        background-color: #0056b3; /* Darker shade */
+        transform: scale(1.05); /* Slightly increase size */
+      }
+
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h1>Digital Logic and Circuit Design</h1>
+    </header>
+    <div class="button-container">
+      <button class="feature-button" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+      <button class="feature-button" onclick="toggleNotes()">Show Notes</button>
+      <button class="feature-button" onclick="downloadNotes()">Download Notes</button>
+    </div>
+    
+    <div class="loader" id="loader"></div>
+    
+    <div id="notes-section">
+      <textarea id="notes-input" placeholder="Take your notes here..."></textarea>
+      <button class="feature-button" onclick="saveNotes()">Save Notes</button>
+    </div>
+    
+    <section id="course-content">
+      <h2>Basic Processor Design and Circuit Design</h2>
+      <hr />
+      <p>Processor design involves creating the core components that perform the computing tasks in a computer system. It encompasses both the architecture (how the processor is structured and how it operates) and the circuit design (how the processor components are implemented using digital circuits).
+
+        Here is an overview of the steps involved in processor design and the components in circuit design:
+        
+        </p>
+      <h3>1. Processor Design:</h3>
+      <p>Processor design can be broken down into two major areas: Microarchitecture and Instruction Set Architecture (ISA).</p>
+      <h4><strong>a. Instruction Set Architecture (ISA)</strong></h4>
+      <p>
+        The ISA defines the instructions the processor can execute. Key elements include:
+        <ul>
+          <li><strong>Data types the processor</strong> can handle (e.g., integers, floating-point numbers).</li>
+          <li><strong>Instruction format</strong> (e.g., opcode and operands).</li>
+          <li><strong>Addressing modes</strong> to access memory (e.g., direct, indirect, indexed).</li>
+          <li><strong>Registers</strong> that are used for intermediate computations.</li>
+        </ul>
+      </p>
+      
+      <h4><strong>b. Microarchitecture</strong></h4>
+      <p>
+        This refers to how the ISA is implemented at the hardware level. Major components are:
+        <ul>
+          <li><strong>ALU (Arithmetic and Logic Unit)</strong> for mathematical operations.</li>
+          <li><strong>Control Unit (CU)</strong> to decode instructions and manage data flow.</li>
+          <li><strong>Registers</strong> for fast data storage during computation.</li>
+          <li><strong>Cache memory</strong> to store frequently accessed data.</li>
+          <li><strong>Pipelining</strong>, which allows multiple instructions to be processed at once.</li>
+        </ul>
+      </p>
+      
+      <h3>2. Circuit Design</h3>
+      <p>
+        The circuit design ensures the correct and efficient operation of the processor. Key components include:
+        <ul>
+          <li>ALU implemented with logic gates and arithmetic circuits.</li>
+          <li>Registers built using flip-flops and memory cells.</li>
+          <li>Control unit that uses combinational and sequential circuits.</li>
+          <li>Clocking and timing systems for synchronized operations.</li>
+          <li>Pipelining to improve throughput and performance.</li>
+        </ul>
+      </p>
+
+      <h3>3. Optimizations in Processor Design:</h3>
+      <p><ul>
+       <li> <strong>Superscalar architecture</strong>: Allows multiple instructions to be executed simultaneously in one cycle.</li>
+<li><strong>Out-of-order execution</strong>: Executes instructions that are not dependent on each other out of sequence, improving resource utilization.</li>
+<li><strong>Branch prediction</strong>: A technique to predict the outcome of branches in the code (e.g., if-else statements) to reduce delays.</li>
+<li><strong>Cache design</strong>: Efficient cache hierarchy (L1, L2, L3 caches) improves access speed to frequently used data.</li>
+</ul>
+      </p>
+
+      <h3>4. Example of a Simple Processor Design:</h3>
+<p>
+    A simple processor could have the following components:
+<ul>
+<li><strong>Data path</strong>: Includes ALU, registers, and buses.</li>
+    <li><strong>Control path</strong>: Includes the control unit that directs the operation of the data path components.</li>
+        <li><strong>Memory interface</strong>: For fetching and storing data to/from memory.</li>
+            <li><strong>Clocking system</strong>: Synchronized to ensure orderly data flow and operation sequencing.</li>
+</ul>
+</p>
+
+      <p>
+        Optimizations such as superscalar architecture, out-of-order execution, and branch prediction help improve processor performance. Cache design (L1, L2, and L3 caches) is also crucial in speeding up memory access.
+      </p>
+
+      <h3>Video Lecture: </h3>
+      <div id="video-player">
+        <iframe
+          id="youtube-player"
+          width="560"
+          height="315"
+          src="https://www.youtube.com/embed/oAo4YRy-DEo"
+          frameborder="0"
+          allowfullscreen
+        ></iframe>
+        <div id="video-progress-container">
+          <div id="video-progress-bar"></div>
+        </div>
+        <div id="video-progress-text">
+          <span id="current-time">0:00</span> /
+          <span id="total-time">0:00</span>
+          <span id="progress-percentage">0%</span>
+        </div>
+      </div>
+      <!-- Take Test Button -->
+      <button id="take-test" class="animated-button">Take Test</button>
+      <div id="celebration">
+        <div id="tick-mark">✔</div>
+        Congratulations! You’ve completed the video.
+      </div>
+    </section>
+
+    <footer>
+      <p>&copy; 2024 Computer Organization Course. All rights reserved.</p>
+    </footer>
+
+    <script>
+      var player;
+      var progressBar = document.getElementById("video-progress-bar");
+      var currentTimeSpan = document.getElementById("current-time");
+      var totalTimeSpan = document.getElementById("total-time");
+      var progressPercentageSpan = document.getElementById("progress-percentage");
+      var celebration = document.getElementById("celebration");
+      var tickMark = document.getElementById("tick-mark");
+
+      // This function will be called when the YouTube API is ready
+      function onYouTubeIframeAPIReady() {
+        // Create a new YouTube player object
+        player = new YT.Player("youtube-player", {
+          events: {
+            // Event handlers for the player
+            onReady: onPlayerReady,
+            onStateChange: onPlayerStateChange,
+          },
+        });
+      }
+
+      // JavaScript to handle button click
+      document.getElementById('take-test').addEventListener('click', function() {
+        window.location.href = 'qq.html'; // Redirect to quiz.html
+      });
+
+      // This function will be called when the player is ready to play
+      function onPlayerReady(event) {
+        // Get the total duration of the video
+        var duration = event.target.getDuration();
+        totalTimeSpan.innerText = formatTime(duration);
+      }
+
+      // This function will be called when the player state changes
+      function onPlayerStateChange(event) {
+        if (event.data == YT.PlayerState.PLAYING) {
+          // Update the progress bar every second while the video is playing
+          var interval = setInterval(function() {
+            var currentTime = player.getCurrentTime();
+            var duration = player.getDuration();
+
+            // Update the progress bar
+            progressBar.style.width = (currentTime / duration) * 100 + "%";
+            currentTimeSpan.innerText = formatTime(currentTime);
+            totalTimeSpan.innerText = formatTime(duration);
+            progressPercentageSpan.innerText = Math.round((currentTime / duration) * 100) + "%";
+
+            // If the video has ended, show the celebration
+            if (currentTime == duration) {
+              clearInterval(interval);
+              setTimeout(function() {
+                celebration.style.display = 'block';
+                tickMark.style.display = 'inline-block';
+              }, 1000); // Delay for celebration effect
+            }
+          }, 1000); // Update progress every second
+        }
+      }
+
+      function formatTime(seconds) {
+        var minutes = Math.floor(seconds / 60);
+        var seconds = Math.floor(seconds % 60);
+        return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+      }
+
+      // Dark mode toggle functionality
+      function toggleDarkMode() {
+        document.body.classList.toggle("dark-mode");
+        document.getElementById("course-content").classList.toggle("dark-mode");
+      }
+
+      // Show and hide notes section
+      function toggleNotes() {
+        var notesSection = document.getElementById("notes-section");
+        notesSection.style.display = notesSection.style.display === "none" ? "block" : "none";
+      }
+
+      // Save notes functionality
+      function saveNotes() {
+        var notesInput = document.getElementById("notes-input");
+        localStorage.setItem("notes", notesInput.value);
+        alert("Notes saved successfully!");
+      }
+
+      // Download notes functionality
+      function downloadNotes() {
+        var notes = localStorage.getItem("notes");
+        var blob = new Blob([notes], { type: "text/plain;charset=utf-8" });
+        var link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "notes.txt";
+        link.click();
+      }
+    </script>
+  </body>
+</html>

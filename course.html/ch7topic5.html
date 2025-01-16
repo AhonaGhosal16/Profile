@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Performance Issues in I/O Systems</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://www.youtube.com/iframe_api"></script>
+
+    <style>
+      /* General body styling */
+      h1, h2, h3 {
+        animation: float 3s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0px); }
+      }
+
+      /* Glowing effect for important terms */
+      strong, b, u {
+        position: relative;
+      }
+
+      strong::after, b::after, u::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        border-radius: 5px;
+        animation: glow 2s ease-in-out infinite;
+      }
+
+      @keyframes glow {
+        0% { box-shadow: 0 0 5px rgba(0,123,255,0); }
+        50% { box-shadow: 0 0 20px rgba(0,123,255,0.5); }
+        100% { box-shadow: 0 0 5px rgba(0,123,255,0); }
+      }
+
+      /* Animated list items */
+      ul li {
+        transform: translateX(-20px);
+        opacity: 0;
+        animation: slideIn 0.5s forwards;
+      }
+
+      @keyframes slideIn {
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      /* Progress bar animation */
+      #video-progress-bar {
+        background: linear-gradient(45deg, #007bff, #00ff88, #007bff);
+        background-size: 200% 200%;
+        animation: gradientBG 3s ease infinite;
+      }
+
+      @keyframes gradientBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+
+      /* Add a dark mode toggle */
+      .dark-mode {
+        background-color: #333;
+        color: #fff;
+      }
+
+      .dark-mode #course-content {
+        background-color: #444;
+        color: #fff;
+      }
+
+      /* Loading spinner */
+      .loader {
+        border: 5px solid #f3f3f3;
+        border-top: 5px solid #007bff;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+        margin: 20px auto;
+        display: none;
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+      /* New button styles */
+      .button-container {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin: 20px 0;
+      }
+
+      .feature-button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 25px;
+        background: linear-gradient(45deg, #007bff, #00ff88);
+        color: white;
+        cursor: pointer;
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+
+      .feature-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      }
+
+      /* Notes section */
+      #notes-section {
+        margin-top: 20px;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: #f0f0f0;
+        display: none;
+      }
+
+      #notes-input {
+        width: 100%;
+        height: 100px;
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 5px;
+      }
+
+      body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f9f9f9;
+        color: #333;
+        margin: 0;
+        padding: 0;
+      }
+
+      header, footer {
+        background-color: #007bff;
+        color: white;
+        padding: 15px;
+        text-align: center;
+      }
+
+      h2, h3 {
+        color: #007bff;
+        text-align: center;
+      }
+
+      /* Styling for the course content section */
+      #course-content {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+      }
+
+      #course-content p {
+        line-height: 1.6;
+        font-size: 16px;
+      }
+
+      ul {
+        padding-left: 20px;
+        margin-top: 10px;
+        list-style-type: square;
+      }
+
+      ul li {
+        margin: 5px 0;
+      }
+
+      /* Hover effect on important terms */
+      strong, b, u {
+        transition: color 0.3s;
+      }
+
+      strong:hover, b:hover, u:hover {
+        color: #ff5733;
+        cursor: pointer;
+      }
+
+      hr {
+        border: 1px solid #007bff;
+        margin-bottom: 20px;
+      }
+
+      /* Styling for the video section */
+      #video-player {
+        margin-top: 30px;
+        text-align: center;
+      }
+
+      iframe {
+        border: 3px solid #007bff;
+        border-radius: 10px;
+        transition: transform 0.3s ease-in-out;
+      }
+
+      iframe:hover {
+        transform: scale(1.05);
+      }
+
+      #video-progress-container {
+        width: 100%;
+        height: 10px;
+        background-color: #f0f0f0;
+        border-radius: 5px;
+        margin-top: 10px;
+        position: relative;
+      }
+
+      #video-progress-bar {
+        width: 0;
+        height: 100%;
+        background-color: #007bff;
+        transition: width 0.2s ease;
+      }
+
+      #video-progress-text {
+        margin-top: 10px;
+        font-size: 16px;
+      }
+
+      #progress-percentage {
+        font-weight: bold;
+        margin-left: 10px;
+      }
+
+      #celebration {
+        display: none;
+        text-align: center;
+        margin-top: 20px;
+        font-size: 24px;
+        color: #28a745;
+        animation: fadeIn 2s forwards;
+      }
+
+      #tick-mark {
+        font-size: 50px;
+        display: none;
+        animation: bounceIn 1s forwards;
+      }
+
+      /* Keyframe for fading in the celebration text */
+      @keyframes fadeIn {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      /* Keyframe for bouncing tick mark */
+      @keyframes bounceIn {
+        0% {
+          transform: scale(0);
+        }
+        60% {
+          transform: scale(1.2);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      /* Progress bar container */
+      #video-progress-container {
+        width: 100%;
+        height: 10px;
+        background-color: #e0e0e0;
+        border-radius: 5px;
+        margin-top: 15px;
+        overflow: hidden;
+      }
+
+      /* Progress bar animation */
+      #video-progress-bar {
+        width: 0;
+        height: 100%;
+        background: linear-gradient(90deg, #007bff, #00c6ff);
+        transition: width 0.2s ease;
+        border-radius: 5px;
+      }
+
+      /* Styling for time labels */
+      #video-progress-text {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #555;
+        text-align: center;
+      }
+
+      /* Footer */
+      footer {
+        margin-top: 30px;
+      }
+
+      /* Animation for hovering on links */
+      a {
+        text-decoration: none;
+        color: #007bff;
+        transition: color 0.3s, transform 0.3s;
+      }
+
+      a:hover {
+        color: #0056b3;
+        transform: translateY(-2px);
+      }
+
+      /* Style for the Take Test button */
+      .animated-button {
+        background-color: #007bff; /* Bootstrap primary color */
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s, transform 0.3s; /* Transition effects */
+      }
+
+      /* Button hover effect */
+      .animated-button:hover {
+        background-color: #0056b3; /* Darker shade */
+        transform: scale(1.05); /* Slightly increase size */
+      }
+
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h1>Input/Output Systems</h1>
+    </header>
+    <div class="button-container">
+      <button class="feature-button" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+      <button class="feature-button" onclick="toggleNotes()">Show Notes</button>
+      <button class="feature-button" onclick="downloadNotes()">Download Notes</button>
+    </div>
+    
+    <div class="loader" id="loader"></div>
+    
+    <div id="notes-section">
+      <textarea id="notes-input" placeholder="Take your notes here..."></textarea>
+      <button class="feature-button" onclick="saveNotes()">Save Notes</button>
+    </div>
+    <section id="course-content">
+      <h2>I/O SYSTEM PERFORMANCE ISSUES</h2>
+      <hr />
+      <p>
+        <strong><b>I/O (Input/Output) systems</b></strong> are critical for ensuring that data can be transferred between computer components (like the CPU, memory, and storage devices) and external devices (such as disk drives, network interfaces, printers, etc.). Performance issues in I/O systems can significantly affect the overall efficiency and responsiveness of a system. Here are some common performance issues in I/O systems:
+      </p>
+      <ul>
+        <li><strong>Latency</strong>
+          <p>Latency refers to the delay before data transfer begins or the time it takes for a request to be processed. High latency can slow down the responsiveness of an I/O system.</p>
+          <p><strong>Causes:</strong></p>
+          <ul>
+            <li>Slow device response times (e.g., mechanical hard drives vs. solid-state drives).</li>
+            <li>Long distances for network communication.</li>
+            <li>Processing delays in I/O controllers or drivers.</li>
+          </ul>
+          <p><strong>Impact:</strong> High latency increases the time it takes for applications or users to receive the requested data, leading to poor performance.</p>
+        </li><br>
+        <li><strong>Throughput (Bandwidth) Limitations</strong>
+          <p>Throughput is the rate at which data can be transferred over an I/O system. Low throughput can occur when the system cannot deliver data at a sufficient speed to meet the needs of applications.</p>
+          <p><strong>Causes:</strong></p>
+          <ul>
+            <li>Slow devices or network connections (e.g., old hard drives, low-speed network interfaces).</li>
+            <li>Bottlenecks in system components (e.g., the CPU is too slow to process data quickly).</li>
+            <li>Suboptimal data transfer protocols or inefficient data paths.</li>
+          </ul>
+          <p><strong>Impact:</strong> Low throughput can result in slower data processing, longer wait times, and inefficient use of system resources.</p>
+        </li><br>
+        <li><strong>I/O Queueing Delays</strong>
+          <p>When many I/O requests are made simultaneously, the system may experience a queue buildup. If the system doesn't handle multiple requests efficiently, I/O requests can be delayed or blocked.</p>
+          <p><strong>Causes:</strong></p>
+          <ul>
+            <li>Insufficient buffer space or cache.</li>
+            <li>High demand for shared I/O resources, like storage devices or network interfaces.</li>
+            <li>Poor scheduling or prioritization of I/O requests.</li>
+          </ul>
+          <p><strong>Impact:</strong> Increased wait times for I/O operations, leading to application or system slowdowns, especially in high-load environments like databases or servers.</p>
+        </li><br>
+        <li><strong>Disk Thrashing</strong>
+          <p>Disk thrashing occurs when there are excessive read/write operations on a disk, leading to constant swapping of data between memory and disk. This can severely degrade system performance.</p>
+          <p><strong>Causes:</strong></p>
+          <ul>
+            <li>Insufficient physical memory (RAM) for running processes.</li>
+            <li>Poor memory management strategies, resulting in frequent paging/swapping.</li>
+          </ul>
+          <p><strong>Impact:</strong> System performance is negatively affected as the disk becomes overwhelmed, leading to slow data access times and system responsiveness issues.</p>
+        </li><br>
+        <li><strong>Overloaded I/O Devices</strong>
+          <p>I/O devices like disks, network interfaces, or printers may become overloaded when the number of simultaneous I/O requests exceeds the device's capability to handle them.</p>
+          <p><strong>Causes:</strong></p>
+          <ul>
+            <li>Multiple processes or users attempting to use the same I/O device simultaneously.</li>
+            <li>Devices with insufficient performance (e.g., older hard drives, slow printers).</li>
+          </ul>
+          <p><strong>Impact:</strong> Reduced performance as the device struggles to keep up with demand, leading to delays in processing requests.</p>
+        </li><br>
+        <li><strong>Context Switching Overhead</strong>
+          <p>When the CPU switches between tasks, it may have to handle I/O operations for multiple processes. This can cause significant overhead if there are frequent context switches, leading to inefficient use of system resources.</p>
+          <p><strong>Causes:</strong></p>
+          <ul>
+            <li>High interrupt rate from I/O devices.</li>
+            <li>Inefficient multitasking or process management by the operating system.</li>
+          </ul>
+          <p><strong>Impact:</strong> Increased overhead and reduced system efficiency, as the CPU spends more time managing context switches than executing useful tasks.</p>
+        </li><br>
+        <li><strong>Network Congestion and Latency</strong>
+          <p>In systems that rely on network communication (e.g., cloud computing, web servers, remote databases), congestion and high latency can impact I/O performance.</p>
+          <p><strong>Causes:</strong></p>
+          <ul>
+            <li>High network traffic or bandwidth limitations.</li>
+            <li>Packet loss, network errors, or slow connections.</li>
+            <li>Poor routing or network configuration.</li>
+          </ul>
+          <p><strong>Impact:</strong> Slow data transfers, delays in remote access, and interruptions in service.</p>
+        </li><br>
+        <li><strong>I/O Synchronization Issues</strong>
+          <p>When multiple processes or threads try to access the same I/O resources concurrently, race conditions or synchronization issues may arise, leading to errors or slowdowns.</p>
+          <p><strong>Causes:</strong></p>
+          <ul>
+            <li>Lack of proper locking mechanisms for I/O resources.</li>
+            <li>Contention for shared I/O resources.</li>
+          </ul>
+          <p><strong>Impact:</strong> Corruption of data, application crashes, or inefficiency due to processes waiting for access to resources.</p>
+        </li><br>
+        <li><strong>Inefficient Use of Caching</strong>
+          <p>Caches are used to store frequently accessed data to speed up I/O operations. However, if the cache is poorly managed (e.g., not enough capacity, incorrect eviction policies), it can lead to poor performance.</p>
+          <p><strong>Causes:</strong></p>
+          <ul>
+            <li>Cache misses due to low cache hit rates.</li>
+            <li>Inefficient cache replacement algorithms.</li>
+            <li>Cache invalidation or corruption.</li>
+          </ul>
+          <p><strong>Impact:</strong> Frequent data retrieval from slower storage (e.g., disk or network), leading to increased latency and reduced throughput.</p>
+        </li><br>
+        <li><strong>Power Failures and Data Corruption</strong>
+          <p>In some I/O systems, power failures or hardware malfunctions can result in incomplete or corrupted data being written to or read from devices, causing further performance issues.</p>
+          <p><strong>Causes:</strong></p>
+          <ul>
+            <li>Unexpected power losses.</li>
+            <li>Lack of proper error detection and correction mechanisms in I/O systems.</li>
+          </ul>
+          <p><strong>Impact:</strong> Loss of data integrity, potential system crashes, or the need for lengthy recovery procedures.</p>
+        </li>
+      </ul>         
+
+      <br>
+      <h3>Performance Issues and Their Causes</h3>
+      <p>These issues may arise due to several factors including:</p>
+      <ul>
+        <li>Slow device response times (e.g., mechanical hard drives vs. solid-state drives).</li>
+        <li>High network traffic or bandwidth limitations.</li>
+        <li>Insufficient buffer space or cache.</li>
+        <li>Insufficient physical memory (RAM) for running processes.</li>
+      </ul>
+      <br>
+
+      <h3>Addressing Performance Issues</h3>
+      <p>To improve I/O performance, various strategies can be employed:</p>
+      <ul>
+        <li>Optimizing hardware: Using faster devices like SSDs, upgrading network interfaces, or adding additional I/O devices.</li>
+        <li>Improving software management: Efficient scheduling of I/O requests, optimizing caching mechanisms, and using effective error-handling techniques.</li>
+        <li>Load balancing: Distributing I/O load evenly across devices or networks to prevent bottlenecks.</li>
+        <li>Upgrading system configurations: Increasing memory, CPU power, or adjusting buffer sizes to reduce queuing delays and thrashing.</li>
+      </ul>
+      <br>
+      
+      <h3>Video Lecture: </h3>
+      <div id="video-player">
+        <iframe
+          id="youtube-player"
+          width="560"
+          height="315"
+          src="https://www.youtube.com/embed/PM728r4oGcE?enablejsapi=1"
+          frameborder="0"
+          allowfullscreen
+        ></iframe>
+        <div id="video-progress-container">
+          <div id="video-progress-bar"></div>
+        </div>
+        <div id="video-progress-text">
+          <span id="current-time">0:00</span> /
+          <span id="total-time">0:00</span>
+          <span id="progress-percentage">0%</span>
+        </div>
+      </div>
+      <!-- Take Test Button -->
+      <button id="take-test" class="animated-button">Take Test</button>
+      <div id="celebration">
+        <div id="tick-mark">✔</div>
+        Congratulations! You’ve completed the video.
+      </div>
+    </section>
+
+    <footer>
+      <p>&copy; 2024 Computer Organization Course. All rights reserved.</p>
+    </footer>
+
+    <script>
+      var player;
+      var progressBar = document.getElementById("video-progress-bar");
+      // Additional script logic can be added here for video progress, test functions, etc.var player;
+      
+      var currentTimeSpan = document.getElementById("current-time");
+      var totalTimeSpan = document.getElementById("total-time");
+      var progressPercentageSpan = document.getElementById("progress-percentage");
+      var celebration = document.getElementById("celebration");
+      var tickMark = document.getElementById("tick-mark");
+
+      // This function will be called when the YouTube API is ready
+      function onYouTubeIframeAPIReady() {
+        // Create a new YouTube player object
+        player = new YT.Player("youtube-player", {
+          events: {
+            // Event handlers for the player
+            onReady: onPlayerReady,
+            onStateChange: onPlayerStateChange,
+          },
+        });
+      }
+      
+// JavaScript to handle button click
+document.getElementById('take-test').addEventListener('click', function() {
+  window.location.href = 'qq.html'; // Redirect to quiz.html
+});
+
+      // This function will be called when the player is ready to play
+      function onPlayerReady(event) {
+        // Get the total duration of the video and display it
+        var totalTime = player.getDuration();
+        totalTimeSpan.textContent = formatTime(totalTime);
+      }
+
+      // This function will be called when the player's state changes
+      function onPlayerStateChange(event) {
+        // Check if the player's state is "playing"
+        if (event.data === YT.PlayerState.PLAYING) {
+          // Start tracking the video progress
+          setInterval(trackVideoProgress, 1000); // Track progress every second
+        }
+      }
+
+      // Function to track video progress
+      function trackVideoProgress() {
+        var currentTime = player.getCurrentTime();
+        var totalTime = player.getDuration();
+        var progress = (currentTime / totalTime) * 100;
+
+        // Update progress bar and percentage
+        progressBar.style.width = progress + "%";
+        progressPercentageSpan.textContent = Math.floor(progress) + "%";
+
+        // Update current time text
+        currentTimeSpan.textContent = formatTime(currentTime);
+
+        // Show celebration or tick mark when video reaches 100%
+        if (progress >= 99) {
+          celebration.style.display = "block";
+          tickMark.style.display = "block";
+        }
+      }
+      // Function to format time in MM:SS format
+      function formatTime(time) {
+        var minutes = Math.floor(time / 60);
+        var seconds = Math.floor(time % 60);
+        return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+      }
+      function toggleDarkMode() {
+  document.body.classList.toggle('dark-mode');
+}
+
+// Notes functionality
+function toggleNotes() {
+  const notesSection = document.getElementById('notes-section');
+  notesSection.style.display = notesSection.style.display === 'none' ? 'block' : 'none';
+}
+
+function saveNotes() {
+  const notes = document.getElementById('notes-input').value;
+  localStorage.setItem('courseNotes', notes);
+  alert('Notes saved successfully!');
+}
+
+function downloadNotes() {
+  const notes = document.getElementById('notes-input').value;
+  const blob = new Blob([notes], { type: 'text/plain' });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'course-notes.txt';
+  a.click();
+}
+
+// Add animation to list items
+document.querySelectorAll('ul li').forEach((item, index) => {
+  item.style.animationDelay = `${index * 0.2}s`;
+});
+
+// Show loader when video is loading
+player.addEventListener('onStateChange', (event) => {
+  const loader = document.getElementById('loader');
+  if (event.data === YT.PlayerState.BUFFERING) {
+    loader.style.display = 'block';
+  } else {
+    loader.style.display = 'none';
+  }
+});
+
+// Load saved notes on page load
+window.onload = function() {
+  const savedNotes = localStorage.getItem('courseNotes');
+  if (savedNotes) {
+    document.getElementById('notes-input').value = savedNotes;
+  }
+}
+    </script>
+  </body>
+</html>

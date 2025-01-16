@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>I/O Devices: Types and Characteristics</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://www.youtube.com/iframe_api"></script>
+
+    <style>
+      /* General body styling */
+      h1, h2, h3 {
+        animation: float 3s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0px); }
+      }
+
+      /* Glowing effect for important terms */
+      strong, b, u {
+        position: relative;
+      }
+
+      strong::after, b::after, u::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        border-radius: 5px;
+        animation: glow 2s ease-in-out infinite;
+      }
+
+      @keyframes glow {
+        0% { box-shadow: 0 0 5px rgba(0,123,255,0); }
+        50% { box-shadow: 0 0 20px rgba(0,123,255,0.5); }
+        100% { box-shadow: 0 0 5px rgba(0,123,255,0); }
+      }
+
+      /* Animated list items */
+      ul li {
+        transform: translateX(-20px);
+        opacity: 0;
+        animation: slideIn 0.5s forwards;
+      }
+
+      @keyframes slideIn {
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      /* Progress bar animation */
+      #video-progress-bar {
+        background: linear-gradient(45deg, #007bff, #00ff88, #007bff);
+        background-size: 200% 200%;
+        animation: gradientBG 3s ease infinite;
+      }
+
+      @keyframes gradientBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+
+      /* Add a dark mode toggle */
+      .dark-mode {
+        background-color: #333;
+        color: #fff;
+      }
+
+      .dark-mode #course-content {
+        background-color: #444;
+        color: #fff;
+      }
+
+      /* Loading spinner */
+      .loader {
+        border: 5px solid #f3f3f3;
+        border-top: 5px solid #007bff;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+        margin: 20px auto;
+        display: none;
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+      /* New button styles */
+      .button-container {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin: 20px 0;
+      }
+
+      .feature-button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 25px;
+        background: linear-gradient(45deg, #007bff, #00ff88);
+        color: white;
+        cursor: pointer;
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+
+      .feature-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      }
+
+      /* Notes section */
+      #notes-section {
+        margin-top: 20px;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: #f0f0f0;
+        display: none;
+      }
+
+      #notes-input {
+        width: 100%;
+        height: 100px;
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 5px;
+      }
+      body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f9f9f9;
+        color: #333;
+        margin: 0;
+        padding: 0;
+      }
+
+      header, footer {
+        background-color: #007bff;
+        color: white;
+        padding: 15px;
+        text-align: center;
+      }
+
+      h2, h3 {
+        color: #007bff;
+        text-align: center;
+      }
+
+      /* Styling for the course content section */
+      #course-content {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+      }
+
+      #course-content p {
+        line-height: 1.6;
+        font-size: 16px;
+      }
+
+      ul {
+        padding-left: 20px;
+        margin-top: 10px;
+        list-style-type: square;
+      }
+
+      ul li {
+        margin: 5px 0;
+      }
+
+      /* Hover effect on important terms */
+      strong, b, u {
+        transition: color 0.3s;
+      }
+
+      strong:hover, b:hover, u:hover {
+        color: #ff5733;
+        cursor: pointer;
+      }
+
+      hr {
+        border: 1px solid #007bff;
+        margin-bottom: 20px;
+      }
+
+      /* Styling for the video section */
+      #video-player {
+        margin-top: 30px;
+        text-align: center;
+      }
+
+      iframe {
+        border: 3px solid #007bff;
+        border-radius: 10px;
+        transition: transform 0.3s ease-in-out;
+      }
+
+      iframe:hover {
+        transform: scale(1.05);
+      }
+
+      #video-progress-container {
+        width: 100%;
+        height: 10px;
+        background-color: #f0f0f0;
+        border-radius: 5px;
+        margin-top: 10px;
+        position: relative;
+      }
+
+      #video-progress-bar {
+        width: 0;
+        height: 100%;
+        background-color: #007bff;
+        transition: width 0.2s ease;
+      }
+
+      #video-progress-text {
+        margin-top: 10px;
+        font-size: 16px;
+      }
+
+      #progress-percentage {
+        font-weight: bold;
+        margin-left: 10px;
+      }
+
+      #celebration {
+        display: none;
+        text-align: center;
+        margin-top: 20px;
+        font-size: 24px;
+        color: #28a745;
+        animation: fadeIn 2s forwards;
+      }
+
+      #tick-mark {
+        font-size: 50px;
+        display: none;
+        animation: bounceIn 1s forwards;
+      }
+
+      /* Keyframe for fading in the celebration text */
+      @keyframes fadeIn {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      /* Keyframe for bouncing tick mark */
+      @keyframes bounceIn {
+        0% {
+          transform: scale(0);
+        }
+        60% {
+          transform: scale(1.2);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+      /* Progress bar container */
+      #video-progress-container {
+        width: 100%;
+        height: 10px;
+        background-color: #e0e0e0;
+        border-radius: 5px;
+        margin-top: 15px;
+        overflow: hidden;
+      }
+
+      /* Progress bar animation */
+      #video-progress-bar {
+        width: 0;
+        height: 100%;
+        background: linear-gradient(90deg, #007bff, #00c6ff);
+        transition: width 0.2s ease;
+        border-radius: 5px;
+      }
+
+      /* Styling for time labels */
+      #video-progress-text {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #555;
+        text-align: center;
+      }
+
+      /* Footer */
+      footer {
+        margin-top: 30px;
+      }
+
+      /* Animation for hovering on links */
+      a {
+        text-decoration: none;
+        color: #007bff;
+        transition: color 0.3s, transform 0.3s;
+      }
+
+      a:hover {
+        color: #0056b3;
+        transform: translateY(-2px);
+      }
+      /* Style for the Take Test button */
+      .animated-button {
+        background-color: #007bff; /* Bootstrap primary color */
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s, transform 0.3s; /* Transition effects */
+      }
+
+      /* Button hover effect */
+      .animated-button:hover {
+        background-color: #0056b3; /* Darker shade */
+        transform: scale(1.05); /* Slightly increase size */
+      }
+
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h1>Input/Output Systems</h1>
+    </header>
+    <div class="button-container">
+      <button class="feature-button" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+      <button class="feature-button" onclick="toggleNotes()">Show Notes</button>
+      <button class="feature-button" onclick="downloadNotes()">Download Notes</button>
+    </div>
+    
+    <div class="loader" id="loader"></div>
+    
+    <div id="notes-section">
+      <textarea id="notes-input" placeholder="Take your notes here..."></textarea>
+      <button class="feature-button" onclick="saveNotes()">Save Notes</button>
+    </div>
+    <section id="course-content">
+      <h2>I/O DEVICES: TYPES AND CHARACTERISTICS</h2>
+      <hr />
+      <p>
+        <strong><b>I/O Devices</b></strong> refer to the components or peripherals used to input or output data from a computer system. These devices are essential for interaction with the computer, allowing data to be received or sent. 
+      </p>
+      <p>
+        I/O devices can be categorized into two main types:
+        <br />
+        1) Input Devices: Devices that allow data to be entered into the system.
+        <br />
+        2) Output Devices: Devices that allow the system to send data to the user or other systems.
+      </p>
+      <h3>Types of I/O Devices and Their Characteristics</h3>
+      <ul>
+        <li><strong>Input Devices:</strong>
+          <ul>
+            <li><strong>Keyboard:</strong> A primary input device for entering text.</li>
+            <li><strong>Mouse:</strong> An input device for pointing, clicking, and selecting.</li>
+            <li><strong>Scanner:</strong> An input device for converting physical documents into digital form.</li>
+            <li><strong>Microphone:</strong> An input device for capturing sound.</li>
+            <li><strong>Touchscreen:</strong> A display that also serves as an input device, detecting touch gestures.</li>
+            <li><strong>Webcam:</strong> A camera that captures video or images for input into the computer.</li>
+          </ul>
+        </li>
+        <br>
+        <li><strong>Output Devices:</strong>
+          <ul>
+            <li><strong>Monitor:</strong> An output device for displaying visual information on the screen.</li>
+            <li><strong>Printer:</strong> An output device that produces a hard copy of digital data.</li>
+            <li><strong>Speakers:</strong> An output device that produces sound from digital audio signals.</li>
+            <li><strong>Projector:</strong> An output device used to project images or videos onto a larger surface.</li>
+          </ul>
+        </li>
+        <br>
+        <li><strong>Storage Devices:</strong>
+          <ul>
+            <li><strong>Hard Disk Drive (HDD):</strong> A magnetic storage device used for long-term data storage.</li>
+            <li><strong>Solid State Drive (SSD):</strong> A faster storage device using flash memory.</li>
+            <li><strong>USB Flash Drive:</strong> A portable storage device for transferring files.</li>
+            <li><strong>Optical Discs:</strong> Storage media such as CDs and DVDs for storing data.</li>
+          </ul>
+        </li>
+        <br>
+        <li><strong>Hybrid Devices:</strong>
+          <ul>
+            <li><strong>Touchscreen Displays:</strong> Act as both input and output devices.</li>
+            <li><strong>Network Interface Cards (NICs):</strong> Facilitate both data input and output over a network.</li>
+            <li><strong>Modem:</strong> A device for converting digital data to analog signals for internet connections.</li>
+          </ul>
+        </li>
+      </ul>
+      <br>
+
+      <h3>Video Lecture: </h3>
+      <div id="video-player">
+        <iframe
+          id="youtube-player"
+          width="560"
+          height="315"
+          src="https://www.youtube.com/embed/F18RiREDkwE"
+          frameborder="0"
+          allowfullscreen
+        ></iframe>
+        <div id="video-progress-container">
+          <div id="video-progress-bar"></div>
+        </div>
+        <div id="video-progress-text">
+          <span id="current-time">0:00</span> /
+          <span id="total-time">0:00</span>
+          <span id="progress-percentage">0%</span>
+        </div>
+      </div>
+       <!-- Take Test Button -->
+  <button id="take-test" class="animated-button">Take Test</button>
+      <div id="celebration">
+        <div id="tick-mark">✔</div>
+        Congratulations! You’ve completed the video.
+      </div>
+    </section>
+
+    <footer>
+      <p>&copy; 2025 Computer Organization Course</p>
+    </footer>
+
+    <script>
+      function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+      }
+
+      function toggleNotes() {
+        const notesSection = document.getElementById('notes-section');
+        notesSection.style.display = notesSection.style.display === 'block' ? 'none' : 'block';
+      }
+
+      function saveNotes() {
+        const notes = document.getElementById('notes-input').value;
+        alert('Notes saved: ' + notes);
+      }
+
+      function downloadNotes() {
+        const notes = document.getElementById('notes-input').value;
+        const blob = new Blob([notes], { type: 'text/plain' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'notes.txt';
+        link.click();
+      }
+    </script>
+  </body>
+</html>

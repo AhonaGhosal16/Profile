@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Number Systems: Binary, Octal, Hexadecimal</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://www.youtube.com/iframe_api"></script>
+
+    <style>
+      /* General body styling */
+      h1, h2, h3 {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+/* Glowing effect for important terms */
+strong, b, u {
+  position: relative;
+}
+
+strong::after, b::after, u::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  border-radius: 5px;
+  animation: glow 2s ease-in-out infinite;
+}
+
+@keyframes glow {
+  0% { box-shadow: 0 0 5px rgba(0,123,255,0); }
+  50% { box-shadow: 0 0 20px rgba(0,123,255,0.5); }
+  100% { box-shadow: 0 0 5px rgba(0,123,255,0); }
+}
+
+/* Animated list items */
+ul li {
+  transform: translateX(-20px);
+  opacity: 0;
+  animation: slideIn 0.5s forwards;
+}
+
+@keyframes slideIn {
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Progress bar animation */
+#video-progress-bar {
+  background: linear-gradient(45deg, #007bff, #00ff88, #007bff);
+  background-size: 200% 200%;
+  animation: gradientBG 3s ease infinite;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Add a dark mode toggle */
+.dark-mode {
+  background-color: #333;
+  color: #fff;
+}
+
+.dark-mode #course-content {
+  background-color: #444;
+  color: #fff;
+}
+
+/* Loading spinner */
+.loader {
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #007bff;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
+  display: none;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* New button styles */
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.feature-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  background: linear-gradient(45deg, #007bff, #00ff88);
+  color: white;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.feature-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* Notes section */
+#notes-section {
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #f0f0f0;
+  display: none;
+}
+
+#notes-input {
+  width: 100%;
+  height: 100px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+}
+      body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f9f9f9;
+        color: #333;
+        margin: 0;
+        padding: 0;
+      }
+
+      header, footer {
+        background-color: #007bff;
+        color: white;
+        padding: 15px;
+        text-align: center;
+      }
+
+      h2, h3 {
+        color: #007bff;
+        text-align: center;
+      }
+
+      /* Styling for the course content section */
+      #course-content {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+      }
+
+      #course-content p {
+        line-height: 1.6;
+        font-size: 16px;
+      }
+
+      ul {
+        padding-left: 20px;
+        margin-top: 10px;
+        list-style-type: square;
+      }
+
+      ul li {
+        margin: 5px 0;
+      }
+
+      /* Hover effect on important terms */
+      strong, b, u {
+        transition: color 0.3s;
+      }
+
+      strong:hover, b:hover, u:hover {
+        color: #ff5733;
+        cursor: pointer;
+      }
+
+      hr {
+        border: 1px solid #007bff;
+        margin-bottom: 20px;
+      }
+
+      /* Styling for the video section */
+      #video-player {
+        margin-top: 30px;
+        text-align: center;
+      }
+
+      iframe {
+        border: 3px solid #007bff;
+        border-radius: 10px;
+        transition: transform 0.3s ease-in-out;
+      }
+
+      iframe:hover {
+        transform: scale(1.05);
+      }
+
+      #video-progress-container {
+        width: 100%;
+        height: 10px;
+        background-color: #f0f0f0;
+        border-radius: 5px;
+        margin-top: 10px;
+        position: relative;
+      }
+
+      #video-progress-bar {
+        width: 0;
+        height: 100%;
+        background-color: #007bff;
+        transition: width 0.2s ease;
+      }
+
+      #video-progress-text {
+        margin-top: 10px;
+        font-size: 16px;
+      }
+
+      #progress-percentage {
+        font-weight: bold;
+        margin-left: 10px;
+      }
+
+      #celebration {
+        display: none;
+        text-align: center;
+        margin-top: 20px;
+        font-size: 24px;
+        color: #28a745;
+        animation: fadeIn 2s forwards;
+      }
+
+      #tick-mark {
+        font-size: 50px;
+        display: none;
+        animation: bounceIn 1s forwards;
+      }
+
+      /* Keyframe for fading in the celebration text */
+      @keyframes fadeIn {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      /* Keyframe for bouncing tick mark */
+      @keyframes bounceIn {
+        0% {
+          transform: scale(0);
+        }
+        60% {
+          transform: scale(1.2);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+      /* Progress bar container */
+      #video-progress-container {
+        width: 100%;
+        height: 10px;
+        background-color: #e0e0e0;
+        border-radius: 5px;
+        margin-top: 15px;
+        overflow: hidden;
+      }
+
+      /* Progress bar animation */
+      #video-progress-bar {
+        width: 0;
+        height: 100%;
+        background: linear-gradient(90deg, #007bff, #00c6ff);
+        transition: width 0.2s ease;
+        border-radius: 5px;
+      }
+
+      /* Styling for time labels */
+      #video-progress-text {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #555;
+        text-align: center;
+      }
+
+      /* Footer */
+      footer {
+        margin-top: 30px;
+      }
+
+      /* Animation for hovering on links */
+      a {
+        text-decoration: none;
+        color: #007bff;
+        transition: color 0.3s, transform 0.3s;
+      }
+
+      a:hover {
+        color: #0056b3;
+        transform: translateY(-2px);
+      }
+      /* Style for the Take Test button */
+.animated-button {
+  background-color: #007bff; /* Bootstrap primary color */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s, transform 0.3s; /* Transition effects */
+}
+
+/* Button hover effect */
+.animated-button:hover {
+  background-color: #0056b3; /* Darker shade */
+  transform: scale(1.05); /* Slightly increase size */
+}
+
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h1>Data Representation and Computer Arithmetic</h1>
+    </header>
+    <div class="button-container">
+      <button class="feature-button" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+      <button class="feature-button" onclick="toggleNotes()">Show Notes</button>
+      <button class="feature-button" onclick="downloadNotes()">Download Notes</button>
+    </div>
+    
+    <div class="loader" id="loader"></div>
+    
+    <div id="notes-section">
+      <textarea id="notes-input" placeholder="Take your notes here..."></textarea>
+      <button class="feature-button" onclick="saveNotes()">Save Notes</button>
+    </div>
+    <section id="course-content">
+        <h2>NUMBER SYSTEMS: Binary, Octal, and Hexadecimal</h2>
+        <hr />
+        <p>
+          A <strong><b>number system</b></strong> is a system of writing numbers using different bases. In computing, the most commonly used number systems are:
+        </p>
+        
+        <h3>1. Binary (Base 2)</h3>
+        <p>
+          The binary system uses two digits: <strong>0</strong> and <strong>1</strong>. These represent the off and on states in digital electronics. Every binary number corresponds to a unique decimal number. Binary is the most fundamental number system in computers.
+        </p>
+        <ul>
+          <li>Example: <strong>1011<sub>2</sub></strong> (which is equivalent to <strong>11<sub>10</sub></strong> in decimal).</li>
+          <li>To convert from binary to decimal, calculate: 
+            <br />
+            1 × 2<sup>3</sup> + 0 × 2<sup>2</sup> + 1 × 2<sup>1</sup> + 1 × 2<sup>0</sup> = 8 + 0 + 2 + 1 = <strong>11<sub>10</sub></strong>
+          </li>
+        </ul>
+  
+        <h3>2. Octal (Base 8)</h3>
+        <p>
+          The octal system uses eight digits: <strong>0, 1, 2, 3, 4, 5, 6, 7</strong>. Octal is often used as a shorthand for binary, as each octal digit corresponds to exactly three binary digits (bits).
+        </p>
+        <ul>
+          <li>Example: <strong>15<sub>8</sub></strong> (which is equivalent to <strong>13<sub>10</sub></strong> in decimal).</li>
+          <li>To convert from octal to decimal, calculate: 
+            <br />
+            1 × 8<sup>1</sup> + 5 × 8<sup>0</sup> = 8 + 5 = <strong>13<sub>10</sub></strong>
+          </li>
+        </ul>
+  
+        <h3>3. Hexadecimal (Base 16)</h3>
+        <p>
+          The hexadecimal system uses sixteen digits: <strong>0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, F</strong> (where <strong>A = 10, B = 11, ..., F = 15</strong>). Hexadecimal is commonly used in programming to represent large binary numbers in a compact form.
+        </p>
+        <ul>
+          <li>Example: <strong>1F<sub>16</sub></strong> (which is equivalent to <strong>31<sub>10</sub></strong> in decimal).</li>
+          <li>To convert from hexadecimal to decimal, calculate: 
+            <br />
+            1 × 16<sup>1</sup> + 15 × 16<sup>0</sup> = 16 + 15 = <strong>31<sub>10</sub></strong>
+          </li>
+        </ul>
+  
+        <h3>Conversion Between Number Systems</h3>
+        <p>
+          - To convert from binary to octal, group the binary digits in sets of 3 and convert each group to an octal digit.<br />
+          - To convert from binary to hexadecimal, group the binary digits in sets of 4 and convert each group to a hexadecimal digit.
+        </p>
+        <p>Example: Converting <strong>1101011<sub>2</sub></strong> to hexadecimal:</p>
+        <ul>
+          <li>Group into 4 bits: <strong>0001 1010 1011</strong></li>
+          <li>Convert each group to hexadecimal: <strong>1 A B</strong></li>
+          <li>Result: <strong>1AB<sub>16</sub></strong></li>
+        </ul>
+  
+      
+      <h3>Video Lecture: </h3>
+      <div id="video-player">
+        <iframe
+          id="youtube-player"
+          width="560"
+          height="315"
+          src="https://www.youtube.com/embed/FFDMzbrEXaE"
+          frameborder="0"
+          allowfullscreen
+        ></iframe>
+        <div id="video-progress-container">
+          <div id="video-progress-bar"></div>
+        </div>
+        <div id="video-progress-text">
+          <span id="current-time">0:00</span> /
+          <span id="total-time">0:00</span>
+          <span id="progress-percentage">0%</span>
+        </div>
+      </div>
+      
+       <!-- Take Test Button -->
+       <button id="take-test" class="animated-button">Take Test</button>
+       <div id="celebration">
+         <div id="tick-mark">✔</div>
+         Congratulations! You’ve completed the video.
+       </div>
+    </section>
+    <footer>
+        <p>&copy; 2024 Computer Organization Course. All rights reserved.</p>
+      </footer>
+
+    <script>
+      function toggleDarkMode() {
+        document.body.classList.toggle("dark-mode");
+      }
+
+      function toggleNotes() {
+        const notesSection = document.getElementById("notes-section");
+        notesSection.style.display = notesSection.style.display === "none" ? "block" : "none";
+      }
+
+      function saveNotes() {
+        const notes = document.getElementById("notes-input").value;
+        localStorage.setItem("notes", notes);
+        alert("Notes saved!");
+      }
+
+      function downloadNotes() {
+        const notes = localStorage.getItem("notes");
+        const blob = new Blob([notes], { type: "text/plain" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "notes.txt";
+        link.click();
+      }
+    </script>
+  </body>
+</html>

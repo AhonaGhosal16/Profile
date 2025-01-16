@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Memory Management Techniques: Allocation and Deallocation</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://www.youtube.com/iframe_api"></script>
+
+    <style>
+      /* General body styling */
+      h1, h2, h3 {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+/* Glowing effect for important terms */
+strong, b, u {
+  position: relative;
+}
+
+strong::after, b::after, u::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  border-radius: 5px;
+  animation: glow 2s ease-in-out infinite;
+}
+
+@keyframes glow {
+  0% { box-shadow: 0 0 5px rgba(0,123,255,0); }
+  50% { box-shadow: 0 0 20px rgba(0,123,255,0.5); }
+  100% { box-shadow: 0 0 5px rgba(0,123,255,0); }
+}
+
+/* Animated list items */
+ul li {
+  transform: translateX(-20px);
+  opacity: 0;
+  animation: slideIn 0.5s forwards;
+}
+
+@keyframes slideIn {
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Progress bar animation */
+#video-progress-bar {
+  background: linear-gradient(45deg, #007bff, #00ff88, #007bff);
+  background-size: 200% 200%;
+  animation: gradientBG 3s ease infinite;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Add a dark mode toggle */
+.dark-mode {
+  background-color: #333;
+  color: #fff;
+}
+
+.dark-mode #course-content {
+  background-color: #444;
+  color: #fff;
+}
+
+/* Loading spinner */
+.loader {
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #007bff;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
+  display: none;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* New button styles */
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.feature-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  background: linear-gradient(45deg, #007bff, #00ff88);
+  color: white;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.feature-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* Notes section */
+#notes-section {
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #f0f0f0;
+  display: none;
+}
+
+#notes-input {
+  width: 100%;
+  height: 100px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+}
+      body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f9f9f9;
+        color: #333;
+        margin: 0;
+        padding: 0;
+      }
+
+      header, footer {
+        background-color: #007bff;
+        color: white;
+        padding: 15px;
+        text-align: center;
+      }
+
+      h2, h3 {
+        color: #007bff;
+        text-align: center;
+      }
+
+      /* Styling for the course content section */
+      #course-content {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+      }
+
+      #course-content p {
+        line-height: 1.6;
+        font-size: 16px;
+      }
+
+      ul {
+        padding-left: 20px;
+        margin-top: 10px;
+        list-style-type: square;
+      }
+
+      ul li {
+        margin: 5px 0;
+      }
+
+      /* Hover effect on important terms */
+      strong, b, u {
+        transition: color 0.3s;
+      }
+
+      strong:hover, b:hover, u:hover {
+        color: #ff5733;
+        cursor: pointer;
+      }
+
+      hr {
+        border: 1px solid #007bff;
+        margin-bottom: 20px;
+      }
+
+      /* Styling for the video section */
+      #video-player {
+        margin-top: 30px;
+        text-align: center;
+      }
+
+      iframe {
+        border: 3px solid #007bff;
+        border-radius: 10px;
+        transition: transform 0.3s ease-in-out;
+      }
+
+      iframe:hover {
+        transform: scale(1.05);
+      }
+
+      #video-progress-container {
+        width: 100%;
+        height: 10px;
+        background-color: #f0f0f0;
+        border-radius: 5px;
+        margin-top: 10px;
+        position: relative;
+      }
+
+      #video-progress-bar {
+        width: 0;
+        height: 100%;
+        background-color: #007bff;
+        transition: width 0.2s ease;
+      }
+
+      #video-progress-text {
+        margin-top: 10px;
+        font-size: 16px;
+      }
+
+      #progress-percentage {
+        font-weight: bold;
+        margin-left: 10px;
+      }
+
+      #celebration {
+        display: none;
+        text-align: center;
+        margin-top: 20px;
+        font-size: 24px;
+        color: #28a745;
+        animation: fadeIn 2s forwards;
+      }
+
+      #tick-mark {
+        font-size: 50px;
+        display: none;
+        animation: bounceIn 1s forwards;
+      }
+
+      /* Keyframe for fading in the celebration text */
+      @keyframes fadeIn {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      /* Keyframe for bouncing tick mark */
+      @keyframes bounceIn {
+        0% {
+          transform: scale(0);
+        }
+        60% {
+          transform: scale(1.2);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+      /* Progress bar container */
+      #video-progress-container {
+        width: 100%;
+        height: 10px;
+        background-color: #e0e0e0;
+        border-radius: 5px;
+        margin-top: 15px;
+        overflow: hidden;
+      }
+
+      /* Progress bar animation */
+      #video-progress-bar {
+        width: 0;
+        height: 100%;
+        background: linear-gradient(90deg, #007bff, #00c6ff);
+        transition: width 0.2s ease;
+        border-radius: 5px;
+      }
+
+      /* Styling for time labels */
+      #video-progress-text {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #555;
+        text-align: center;
+      }
+
+      /* Footer */
+      footer {
+        margin-top: 30px;
+      }
+
+      /* Animation for hovering on links */
+      a {
+        text-decoration: none;
+        color: #007bff;
+        transition: color 0.3s, transform 0.3s;
+      }
+
+      a:hover {
+        color: #0056b3;
+        transform: translateY(-2px);
+      }
+      /* Style for the Take Test button */
+.animated-button {
+  background-color: #007bff; /* Bootstrap primary color */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s, transform 0.3s; /* Transition effects */
+}
+
+/* Button hover effect */
+.animated-button:hover {
+  background-color: #0056b3; /* Darker shade */
+  transform: scale(1.05); /* Slightly increase size */
+}
+
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h1>	Memory Hierarchy and Management</h1>
+    </header>
+    <div class="button-container">
+      <button class="feature-button" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+      <button class="feature-button" onclick="toggleNotes()">Show Notes</button>
+      <button class="feature-button" onclick="downloadNotes()">Download Notes</button>
+    </div>
+    
+    <div class="loader" id="loader"></div>
+    
+    <div id="notes-section">
+      <textarea id="notes-input" placeholder="Take your notes here..."></textarea>
+      <button class="feature-button" onclick="saveNotes()">Save Notes</button>
+    </div>
+    <section id="course-content">
+
+      <!-- New Memory Management Section -->
+      <h2>Memory Management</h2>
+      <hr />
+      <p>
+        Memory management is a crucial aspect of computer systems, as it ensures that programs and processes efficiently use the available memory resources. Two key components of memory management are allocation and deallocation. Here's a breakdown of these concepts and the techniques used:
+      </p>
+      
+      <h3>1. Memory Allocation</h3>
+      <p>
+        Memory allocation refers to the process of assigning memory blocks to different tasks or processes. It can be broadly classified into two types:
+      </p>
+      <ul>
+        <li><strong>a. Static Memory Allocation</strong></li>
+        <ul>
+          <li><strong>Definition:</strong> Memory is allocated at compile time, and the size of memory required is known beforehand.</li>
+          <li><strong>Characteristics:</strong> 
+            <ul>
+              <li>Memory is allocated for variables that are fixed in size and known before execution (e.g., global variables, static variables).</li>
+              <li>Memory allocation is fast because it occurs before the program starts running.</li>
+              <li>The allocated memory cannot be resized during runtime.</li>
+            </ul>
+          </li>
+          <li><strong>Examples:</strong> In languages like C, static variables or global variables are statically allocated.</li>
+        </ul>
+        
+        <li><strong>b. Dynamic Memory Allocation</strong></li>
+        <ul>
+          <li><strong>Definition:</strong> Memory is allocated during runtime based on the program’s needs.</li>
+          <li><strong>Characteristics:</strong>
+            <ul>
+              <li>Memory is requested and released using runtime mechanisms like malloc, calloc, or new in C/C++.</li>
+              <li>It allows for more flexible memory usage, as the memory is allocated only when needed and can be resized or deallocated when no longer needed.</li>
+              <li>Dynamic allocation can introduce issues like fragmentation (unused gaps in memory).</li>
+            </ul>
+          </li>
+          <li><strong>Examples:</strong> In C, functions like malloc(), calloc(), realloc() allocate memory dynamically. In Java, memory allocation is handled by the JVM through objects created at runtime.</li>
+        </ul>
+      </ul>
+
+      <h3>2. Memory Deallocation</h3>
+      <p>
+        Memory deallocation refers to the process of releasing previously allocated memory, making it available for reuse. Deallocation can either be manual or automatic.
+      </p>
+      <ul>
+        <li><strong>a. Manual Deallocation</strong></li>
+        <ul>
+          <li><strong>Definition:</strong> The programmer is responsible for explicitly releasing memory once it is no longer needed.</li>
+          <li><strong>Characteristics:</strong> 
+            <ul>
+              <li>Failure to deallocate memory properly can lead to memory leaks, where memory that is no longer used remains allocated, potentially exhausting system memory over time.</li>
+              <li>This is commonly found in languages like C and C++.</li>
+            </ul>
+          </li>
+          <li><strong>Examples:</strong> In C, the function free() is used to deallocate memory that was previously allocated using malloc(). In C++, the delete and delete[] operators are used to free dynamically allocated memory.</li>
+        </ul>
+
+        <li><strong>b. Automatic Deallocation</strong></li>
+        <ul>
+          <li><strong>Definition:</strong> The system (often via a garbage collector) automatically releases memory when it is no longer in use.</li>
+          <li><strong>Characteristics:</strong>
+            <ul>
+              <li>This technique reduces the programmer's responsibility for managing memory, lowering the risk of memory leaks.</li>
+              <li>However, it may introduce performance overhead due to the garbage collector’s work of identifying and cleaning up unused memory.</li>
+            </ul>
+          </li>
+          <li><strong>Examples:</strong> Languages like Java, Python, and C# use garbage collection to automatically manage memory, identifying objects that are no longer referenced and deallocating them.</li>
+        </ul>
+      </ul>
+
+      <h3>3. Techniques for Memory Allocation and Deallocation</h3>
+      <ul>
+        <li><strong>a. First-Fit Allocation:</strong> Memory is allocated in the first free block that is large enough to accommodate the request. It is fast but can lead to fragmentation over time, especially with many small allocations.</li>
+        <li><strong>b. Best-Fit Allocation:</strong> This technique allocates memory in the smallest free block that is sufficient to satisfy the allocation request. It tries to minimize waste but can lead to small fragments of memory that are unusable.</li>
+        <li><strong>c. Worst-Fit Allocation:</strong> In this technique, the largest available block of memory is chosen for allocation. It may result in fewer, larger fragments of unused memory but can sometimes leave very large free blocks.</li>
+        <li><strong>d. Buddy System Allocation:</strong> This technique divides memory into blocks that are powers of two. When a request for memory is made, it is allocated from the smallest available block that fits the request. When the memory is freed, it is merged with neighboring blocks of the same size to form a larger block, reducing fragmentation.</li>
+        <li><strong>e. Garbage Collection:</strong> As mentioned earlier, automatic memory management systems (like garbage collectors) track memory usage and automatically deallocate memory that is no longer in use. It uses algorithms like reference counting or tracing to identify and reclaim unused memory.</li>
+      </ul>
+
+      <h3>4. Challenges in Memory Allocation and Deallocation</h3>
+      <ul>
+        <li><strong>Fragmentation:</strong> Over time, memory can become fragmented, meaning that free memory is available but in small, non-contiguous blocks. This can make it difficult to allocate larger memory blocks.</li>
+        <li><strong>Memory Leaks:</strong> In manual memory management systems, failing to deallocate memory when it is no longer needed can lead to memory leaks, which gradually consume more and more memory, potentially slowing down or crashing programs.</li>
+        <li><strong>Overhead:</strong> Garbage collection and memory management techniques that automatically reclaim memory add computational overhead, potentially impacting performance.</li>
+      </ul>
+
+      <h3>5. Conclusion</h3>
+      <p>
+        Memory management is a critical aspect of system performance. Efficient allocation and deallocation strategies are essential for optimal resource utilization. Understanding the trade-offs between different techniques—such as manual vs. automatic memory management, or the different allocation methods—can help developers optimize their applications and avoid common pitfalls like fragmentation and memory leaks.
+      </p>
+      <h3>Video Lecture: </h3>
+      <div id="video-player">
+        <iframe
+          id="youtube-player"
+          width="560"
+          height="315"
+          src="https://www.youtube.com/embed/FrTttJLN7Kw"
+          frameborder="0"
+          allowfullscreen
+        ></iframe>
+        <div id="video-progress-container">
+          <div id="video-progress-bar"></div>
+        </div>
+        <div id="video-progress-text">
+          <span id="current-time">0:00</span> /
+          <span id="total-time">0:00</span>
+          <span id="progress-percentage">0%</span>
+        </div>
+      </div>
+       <!-- Take Test Button -->
+  <button id="take-test" class="animated-button">Take Test</button>
+      <div id="celebration">
+        <div id="tick-mark">✔</div>
+        Congratulations! You’ve completed the video.
+
+    </section>
+    <footer>
+      <p>Course Content © 2025</p>
+    </footer>
+
+    <script>
+      // Add your JavaScript here to make the page interactive, as before
+      var player;
+      var progressBar = document.getElementById("video-progress-bar");
+      var currentTimeSpan = document.getElementById("current-time");
+      var totalTimeSpan = document.getElementById("total-time");
+      var progressPercentageSpan = document.getElementById("progress-percentage");
+      var celebration = document.getElementById("celebration");
+      var tickMark = document.getElementById("tick-mark");
+
+      // This function will be called when the YouTube API is ready
+      function onYouTubeIframeAPIReady() {
+        // Create a new YouTube player object
+        player = new YT.Player("youtube-player", {
+          events: {
+            // Event handlers for the player
+            onReady: onPlayerReady,
+            onStateChange: onPlayerStateChange,
+          },
+        });
+      }
+      
+// JavaScript to handle button click
+document.getElementById('take-test').addEventListener('click', function() {
+  window.location.href = 'qq.html'; // Redirect to quiz.html
+});
+
+      // This function will be called when the player is ready to play
+      function onPlayerReady(event) {
+        // Get the total duration of the video and display it
+        var totalTime = player.getDuration();
+        totalTimeSpan.textContent = formatTime(totalTime);
+      }
+
+      // This function will be called when the player's state changes
+      function onPlayerStateChange(event) {
+        // Check if the player's state is "playing"
+        if (event.data === YT.PlayerState.PLAYING) {
+          // Start tracking the video progress
+          setInterval(trackVideoProgress, 1000); // Track progress every second
+        }
+      }
+
+      // Function to track video progress
+      function trackVideoProgress() {
+        var currentTime = player.getCurrentTime();
+        var totalTime = player.getDuration();
+        var progress = (currentTime / totalTime) * 100;
+
+        // Update progress bar and percentage
+        progressBar.style.width = progress + "%";
+        progressPercentageSpan.textContent = Math.floor(progress) + "%";
+
+        // Update current time text
+        currentTimeSpan.textContent = formatTime(currentTime);
+
+        // Show celebration or tick mark when video reaches 100%
+        if (progress >= 99) {
+          celebration.style.display = "block";
+          tickMark.style.display = "block";
+        }
+      }
+      // Function to format time in MM:SS format
+      function formatTime(time) {
+        var minutes = Math.floor(time / 60);
+        var seconds = Math.floor(time % 60);
+        return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+      }
+      function toggleDarkMode() {
+  document.body.classList.toggle('dark-mode');
+}
+
+// Notes functionality
+function toggleNotes() {
+  const notesSection = document.getElementById('notes-section');
+  notesSection.style.display = notesSection.style.display === 'none' ? 'block' : 'none';
+}
+
+function saveNotes() {
+  const notes = document.getElementById('notes-input').value;
+  localStorage.setItem('courseNotes', notes);
+  alert('Notes saved successfully!');
+}
+
+function downloadNotes() {
+  const notes = document.getElementById('notes-input').value;
+  const blob = new Blob([notes], { type: 'text/plain' });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'course-notes.txt';
+  a.click();
+}
+
+// Add animation to list items
+document.querySelectorAll('ul li').forEach((item, index) => {
+  item.style.animationDelay = `${index * 0.2}s`;
+});
+
+// Show loader when video is loading
+player.addEventListener('onStateChange', (event) => {
+  const loader = document.getElementById('loader');
+  if (event.data === YT.PlayerState.BUFFERING) {
+    loader.style.display = 'block';
+  } else {
+    loader.style.display = 'none';
+  }
+});
+
+// Load saved notes on page load
+window.onload = function() {
+  const savedNotes = localStorage.getItem('courseNotes');
+  if (savedNotes) {
+    document.getElementById('notes-input').value = savedNotes;
+  }
+}
+    </script>
+  </body>
+</html>
